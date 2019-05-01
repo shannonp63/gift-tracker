@@ -1,39 +1,41 @@
 <?php
-
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Cartalyst\Sentinel\Users\EloquentUser;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Illuminate\Support\Facades\Log;
 
-class User extends Authenticatable
+class User extends EloquentUser
 {
-    use Notifiable;
+    use SoftDeletes, Authorizable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $primaryKey = 'id';
+    protected $table = 'users';
+    protected $loginNames = ['email_address'];
     protected $fillable = [
-        'name', 'email', 'password',
+        'email_address',
+        'password',
+        'permissions',
+        'person_id',
+        'facebook_id'
     ];
+    protected $hidden = ['password'];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function addNew($input)
+    {
+        $check = self::where('facebook_id',$input['facebook_id'])->first();
+        if(is_null($check)){
+            return self::create($input);
+        }
+        return $check;
+    }
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function person()
+    {
+        return $this->hasOne('App\Person');
+    }
 }
