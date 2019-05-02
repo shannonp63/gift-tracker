@@ -5,8 +5,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class EventMessage extends Model {
 	protected $table = 'event_messages';
-	protected $attributes = ['subject', 'body', 'person_id', 'event_id', 'reply_message'];
-	protected $fillable = ['subject', 'body', 'person_id', 'event_id', 'reply_message'];
+	protected $attributes = [
+		'subject', 
+		'body', 
+		'person_id', 
+		'event_id', 
+		'reply_message'
+	];
+	protected $fillable = [
+		'subject', 
+		'body', 
+		'person_id', 
+		'event_id', 
+		'reply_message'
+	];
 	public $softdeletes = true;
 
 	public function event()

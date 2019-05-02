@@ -5,8 +5,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model {
 	protected $table = 'notes';
-	protected $attributes = ['name', 'body', 'privacy', 'person_id', 'owner_id', 'event_id'];
-	protected $fillable = ['name', 'body', 'privacy', 'person_id', 'owner_id', 'event_id'];
+	protected $attributes = [
+		'name', 
+		'body', 
+		'privacy', 
+		'person_id', 
+		'owner_id', 
+		'event_id'
+	];
+	protected $fillable = [
+		'name', 
+		'body', 
+		'privacy', 
+		'person_id', 
+		'owner_id', 
+		'event_id'
+	];
 	public $softdeletes = true;
 
 	public function event()

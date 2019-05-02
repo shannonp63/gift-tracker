@@ -10,6 +10,8 @@
     "require": {
         "php": "^7.1.3",
         "cartalyst/sentinel": "2.0.*",
+        "components/bootstrap-datetimepicker": "^2.4",
+        "doitlikejustin/amazon-wish-lister": "dev-master",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/socialite": "^4.1",

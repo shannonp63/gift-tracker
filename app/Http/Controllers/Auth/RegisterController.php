@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -50,7 +51,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email_address' => ['required', 'string', 'email_address', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -65,8 +66,23 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'email_address' => $data['email_address'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function createUser()
+    {
+        return view::('user.create-user', []);
+    }
+
+
+    public function store(array $data)
+    {
+        $person = new Person($data);
+        $data['person_id'] = $person->id;
+        $data['password'] = Hash::make($data['password']);
+        $user = User::create($data);
+        return Redirect::route('dashboard', $contact_id)->withSuccess('User created');
     }
 }
